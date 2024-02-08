@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Assignment 2</title>
+    <style>
+        body { margin: 0; }
+    </style>
+</head>
+
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
+
+    <script>
+        var scene = new THREE.Scene();
+        var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        var renderer = new THREE.WebGLRenderer();
+
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        var geometry = new THREE.Geometry();
+        for (var i = 0; i < 5; i++) {
+            var angle = (i / 5) * Math.PI * 2;
+            var vertex = new THREE.Vector3(Math.cos(angle) * 5, Math.sin(angle) * 5, 0);
+            geometry.vertices.push(vertex);
+        }
+        geometry.faces.push(new THREE.Face3(0, 1, 2));
+        geometry.faces.push(new THREE.Face3(0, 2, 3));
+        geometry.faces.push(new THREE.Face3(0, 3, 4));
+
+        var material = new THREE.MeshBasicMaterial({ color: 0xFF0000, side: THREE.DoubleSide });
+        var polygon = new THREE.Mesh(geometry, material);
+        scene.add(polygon);
+
+        camera.position.z = 10;
+
+        var animate = function () {
+            requestAnimationFrame(animate);
+
+            polygon.rotation.x += 0.005;
+            polygon.rotation.y += 0.005;
+
+            renderer.render(scene, camera);
+        };
+
+        animate();
+    </script>
+</body>
+
+</html>
